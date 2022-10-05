@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "NewWorld": {
+      "commandName": "Project",
+      "commandLineArgs": "generate --inputfile \"C:\\Users\\Brad\\source\\repos\\NewWorld\\Sample\\worksample.work\""
+    }
+  }
+}

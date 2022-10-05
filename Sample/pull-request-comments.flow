@@ -1,0 +1,55 @@
+flow 
+[
+    action a0 "Start"
+    connection a0 d0
+    decision d0 "What kind of feedback was received?"
+    connection d0 d00 "Comment"
+    connection d0 dr1 "Rejected"
+	decision d00 "Is it clear and informative?`(More than just a link or 'Fix this')"
+    no d00 a1
+    action a1 "Communicate with commenter: `'I’m not sure what you meant.`Could you elaborate?'"
+	yes d00 d2
+	decision d2 "Is it reasonable?"
+	Yes d2 d3
+	decision d3 "Can it reasonably be`implemented in the current story?"
+	Yes d3 a2
+	action a2 "Do it"
+	No d3 a3
+	action a3 "Create a new story to`address the new / discovered`tech debt."
+    connection a3 d4
+	decision d4 "Does it differ from`the stakeholder’s request?"
+	No d4 a4
+	action a4 "Communicate with commenter:` Thank you for your input.`We will address this in a future sprint."
+	Yes d4 a5
+	action a5 "Communicate with commenter:` 'Thank you for your input.`  This deviates from the work that was requested.`  After we discuss this with the requester` we will determine if further work is required'"
+	No d2 d5
+    decision d5 "Does it differ from`the stakeholder’s request?"
+	No d5 a6
+    action a6 "Communicate with commenter:` Thank you for your input.`  We will consider this for future work."
+	Yes d5 a7
+	action a7 "Communicate with commenter:` Thank you for your input.`  This deviates from the work that was requested.`  We will pass your feedback along, to the requester"
+
+
+    decision dr1 "Is it clear and informative?` (More than just a link or Fix this)"
+	No dr1 ar1
+	action ar1 "Communicate with commenter:`“I’m not sure what you meant.` Could you elaborate?”"
+	Yes dr1 dr2
+	decision dr2 "Is it reasonable?"
+	Yes dr2 dr3
+	decision dr3 "Can it be reasonably`implemented in the current story?"
+	Yes dr3 ar2
+	action ar2 "Do it"
+	No dr3 dr4
+	decision dr4 "Does it differ from`the stakeholder’s request?"
+	No dr4 ar3
+	action ar3 "Conduct an internal discussion`to arrive at a resolution`(new story or approval)"
+	Yes dr4 ar4
+	action ar4 "Conduct a discussion, including`the stakeholder and`the commenter to arrive at a resolution`(new story or approval)"
+	No dr2 dr5
+	decision dr5 "Does it differ from`the stakeholder’s request?"
+	No dr5 ar5
+	action ar5 "Conduct an internal discussion`to arrive at a resolution (additional`work for story or approval)"
+	Yes dr5 ar6
+	action ar6 "Conduct a discussion, including`the stakeholder and the`commenter to arrive at a resolution` (additional work for story or approval)"
+
+]

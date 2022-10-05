@@ -1,0 +1,19 @@
+flow 
+[
+    action a1 "Start"
+    decision d1 "What day of`the week is it?"
+    action a2 "Take out the trash"
+    action a4 "Relax"
+    boundary b1 "Recycling"
+    [
+        decision d2 "Is it the`alternate week?"
+        action a3 "Take out the recycling"
+    ]
+    connection a1 d1
+    connection d1 a2 "Sunday" 
+    connection d1 d2 "Tuesday" 
+    connection d2 a3 "Yes" 
+    connection d2 a4 "No"
+    connection d1 a2 "Wednesday"
+    connection d1 a4 "Other"
+]
