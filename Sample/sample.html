@@ -1,0 +1,28 @@
+<html>
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+        <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+
+        <h1>sample</h1>
+        </hl>
+        <div class="mermaid">
+graph TB
+    Start["a1"]
+    What_day_of`the_week_is_it?{"d1"}
+    Take_out_the_trash["a2"]
+    Relax["a4"]
+    a1--" "-->d1
+    d1--"Sunday"-->a2
+    d1--"Tuesday"-->d2
+    d2--"Yes"-->a3
+    d2--"No"-->a4
+    d1--"Wednesday"-->a2
+    d1--"Other"-->a4
+    Start--" "-->What_day_of`the_week_is_it?
+    Take_out_the_trash--" "-->Relax
+
+        </div>
+    </body>
+</html>

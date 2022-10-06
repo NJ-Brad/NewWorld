@@ -75,29 +75,34 @@ namespace NewWorld
     {
         static int Main(string[] args)
         {
-            BlockParser parser = new ();
-           Block block = parser.ParseText(new StreamReader(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TestData.GetWhamFlow()))));
+            string uDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            //string sampleName = "~/github/newworld/sample";
+            string sampleName = "../sample/worksample.work";
+            //if(OperatingSystem.IsWindows())
+            string expandedDir = sampleName.Substring(0,1) == "~" ? sampleName.Replace("~", uDir) : sampleName;
+            string pName = Path.GetFullPath(expandedDir);
+        //     BlockParser parser = new ();
+        //    Block block = parser.ParseText(new StreamReader(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TestData.GetWhamFlow()))));
 
-            FlowchartWorkspace ws = BlockToFlowchartConverter.Convert(block);
-            FlowchartPublisher fp = new();
+        //     FlowchartWorkspace ws = BlockToFlowchartConverter.Convert(block);
 
-            string mermaidText = fp.Publish(ws, "MERMAID");
+        //     string mermaidText = FlowchartPublisher.Publish(ws, "MERMAID");
 
-            block = parser.ParseText(new StreamReader(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TestData.GetNoDecisionWhamFlow()))));
-            ws = BlockToFlowchartConverter.Convert(block);
-            mermaidText = fp.Publish(ws, "MERMAID");
+        //     block = parser.ParseText(new StreamReader(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TestData.GetNoDecisionWhamFlow()))));
+        //     ws = BlockToFlowchartConverter.Convert(block);
+        //     mermaidText = fp.Publish(ws, "MERMAID");
 
-            // this could be removed if desired
-            // https://stackoverflow.com/questions/68633872/how-to-get-or-put-string-to-clipboard-in-c-sharp-netcore-put-string-to-clipboar
-            TextCopy.ClipboardService.SetText(mermaidText);
+        //     // this could be removed if desired
+        //     // https://stackoverflow.com/questions/68633872/how-to-get-or-put-string-to-clipboard-in-c-sharp-netcore-put-string-to-clipboar
+        //     TextCopy.ClipboardService.SetText(mermaidText);
 
-            MermaidPageGenerator.Generate(mermaidText, "Sample", @"C:\Users\Brad\source\repos\NewWorld\sampleGetNoDecisionWhamFlow.html");
+        //     MermaidPageGenerator.Generate(mermaidText, "Sample", @"C:\Users\Brad\source\repos\NewWorld\sampleGetNoDecisionWhamFlow.html");
 
 
-            block = parser.ParseText(new StreamReader(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TestData.GetWorkItems()))));
-            WorkItemWorkspace wiws = BlockToWorkItemsConverter.Convert(block);
-            mermaidText = WorkItemPublisher.Publish(wiws);
-            MermaidPageGenerator.Generate(mermaidText, "Sample", @"C:\Users\Brad\source\repos\NewWorld\sampleGantt.html");
+        //     block = parser.ParseText(new StreamReader(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TestData.GetWorkItems()))));
+        //     WorkItemWorkspace wiws = BlockToWorkItemsConverter.Convert(block);
+        //     mermaidText = WorkItemPublisher.Publish(wiws);
+        //     MermaidPageGenerator.Generate(mermaidText, "Sample", @"C:\Users\Brad\source\repos\NewWorld\sampleGantt.html");
 
             // add any new verbs to the line below
             return CommandLine.Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions, SampleOptions, GenerateOptions>(args)
@@ -153,16 +158,16 @@ namespace NewWorld
                 string mermaidText = "";
 
                 string title = (string.IsNullOrEmpty(opts.Title) ? Path.GetFileNameWithoutExtension(opts.InputFile) : opts.Title);
-                string outputFileName = (string.IsNullOrEmpty(opts.OutputFile) ? Path.ChangeExtension(opts.InputFile, "html") : opts.OutputFile);
+                string outputFileName = (string.IsNullOrEmpty(opts.OutputFile) ? Path.ChangeExtension(FixPath(opts.InputFile), "html") : FixPath(opts.OutputFile));
 
-                using (StreamReader sr = new(opts.InputFile))
+                using (StreamReader sr = new(FixPath(opts.InputFile)))
                 {
                     //        summarizer.LoadOther(sr);
-                    String line = sr.ReadToEnd();
+                    //String line = sr.ReadToEnd();
                     switch (filetype)
                     {
                         case "WORK":
-                            block = parser.ParseText(new StreamReader(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TestData.GetWorkItems()))));
+                            block = parser.ParseText(sr);
                             WorkItemWorkspace wiws = BlockToWorkItemsConverter.Convert(block);
                             mermaidText = WorkItemPublisher.Publish(wiws);
                             MermaidPageGenerator.Generate(mermaidText, title, outputFileName);
@@ -172,6 +177,14 @@ namespace NewWorld
                             }
                             break;
                         case "FLOW":
+                            block = parser.ParseText(sr);
+                            FlowchartWorkspace fcws = BlockToFlowchartConverter.Convert(block);
+                            mermaidText = FlowchartPublisher.Publish(fcws, "MERMAID");
+                            MermaidPageGenerator.Generate(mermaidText, title, outputFileName);
+                            if (opts.ShowOutput)
+                            {
+                                OpenBrowser($"file:///{outputFileName}");
+                            }
                             break;
                     }
 
@@ -179,6 +192,16 @@ namespace NewWorld
             }
 
             return 0;
+        }
+
+        private static string FixPath(string originalPath)
+        {
+            string uDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+            //string sampleName = "~/github/newworld/sample";
+            //if(OperatingSystem.IsWindows())
+            string expandedDir = originalPath.Substring(0,1) == "~" ? originalPath.Replace("~", uDir) : originalPath;
+            string pName = Path.GetFullPath(expandedDir);
+            return pName;
         }
 
         // from https://brockallen.com/2016/09/24/process-start-for-urls-on-net-core/

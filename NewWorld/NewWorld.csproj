@@ -8,8 +8,8 @@
 
     <PublishSingleFile>false</PublishSingleFile>
     <SelfContained>false</SelfContained>
-    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-    <PublishReadyToRun>true</PublishReadyToRun>
+    <_RuntimeIdentifier>win-x64</_RuntimeIdentifier>
+    <_PublishReadyToRun>true</_PublishReadyToRun>
 
   </PropertyGroup>
 

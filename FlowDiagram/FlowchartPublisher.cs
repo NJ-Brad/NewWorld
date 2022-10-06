@@ -4,14 +4,14 @@ namespace FlowDiagram
 {
     public class FlowchartPublisher
     {
-        public string Publish(FlowchartWorkspace workspace, string format)
+        public static string Publish(FlowchartWorkspace workspace, string format)
         {
 
             string rtnVal = "";
             switch (format)
             {
                 case "MERMAID":
-                    rtnVal = this.PublishMermaid(workspace);
+                    rtnVal = PublishMermaid(workspace);
                     break;
                 case "PLANT":
                     break;
@@ -20,7 +20,7 @@ namespace FlowDiagram
             return rtnVal;
         }
 
-        private string PublishMermaid(FlowchartWorkspace workspace)
+        private static string PublishMermaid(FlowchartWorkspace workspace)
         {
             StringBuilder sb = new();
 
@@ -29,7 +29,7 @@ namespace FlowDiagram
             foreach (FlowchartItem item in workspace.items)
             {
                 //item = workspace.items[itmNum];
-                sb.Append(this.MermaidItem(item));
+                sb.Append(MermaidItem(item, 1));
             }
 
             foreach (FlowchartRelationship rel in workspace.relationships)
@@ -67,7 +67,7 @@ namespace FlowDiagram
             return rtnVal;
         }
 
-        private string MermaidItem(FlowchartItem item, int indent = 1)
+        private static string MermaidItem(FlowchartItem item, int indent = 1)
         {
             StringBuilder sb = new();
 
@@ -93,7 +93,7 @@ namespace FlowDiagram
 
                         foreach (FlowchartItem item2 in item.items)
                         {
-                            sb.AppendLine(this.MermaidItem(item2, indent).TrimEnd());
+                            sb.AppendLine(MermaidItem(item2, indent).TrimEnd());
                         }
                         sb.AppendLine($"{indentation}end");
                     }

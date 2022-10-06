@@ -1,0 +1,77 @@
+<html>
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+        <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+
+        <h1>pull-request-comments</h1>
+        </hl>
+        <div class="mermaid">
+graph TB
+    Start["a0"]
+    What_kind_of_feedback_was_received?{"d0"}
+    Is_it_clear_and_informative?`(More_than_just_a_link_or_'Fix_this'){"d00"}
+    Communicate_with_commenter:_`'I’m_not_sure_what_you_meant.`Could_you_elaborate?'["a1"]
+    Is_it_reasonable?{"d2"}
+    Can_it_reasonably_be`implemented_in_the_current_story?{"d3"}
+    Do_it["a2"]
+    Create_a_new_story_to`address_the_new_/_discovered`tech_debt.["a3"]
+    Does_it_differ_from`the_stakeholder’s_request?{"d4"}
+    Communicate_with_commenter:`_Thank_you_for_your_input.`We_will_address_this_in_a_future_sprint.["a4"]
+    Communicate_with_commenter:`_'Thank_you_for_your_input.`__This_deviates_from_the_work_that_was_requested.`__After_we_discuss_this_with_the_requester`_we_will_determine_if_further_work_is_required'["a5"]
+    Does_it_differ_from`the_stakeholder’s_request?{"d5"}
+    Communicate_with_commenter:`_Thank_you_for_your_input.`__We_will_consider_this_for_future_work.["a6"]
+    Communicate_with_commenter:`_Thank_you_for_your_input.`__This_deviates_from_the_work_that_was_requested.`__We_will_pass_your_feedback_along,_to_the_requester["a7"]
+    Is_it_clear_and_informative?`_(More_than_just_a_link_or_Fix_this){"dr1"}
+    Communicate_with_commenter:`“I’m_not_sure_what_you_meant.`_Could_you_elaborate?”["ar1"]
+    Is_it_reasonable?{"dr2"}
+    Can_it_be_reasonably`implemented_in_the_current_story?{"dr3"}
+    Do_it["ar2"]
+    Does_it_differ_from`the_stakeholder’s_request?{"dr4"}
+    Conduct_an_internal_discussion`to_arrive_at_a_resolution`(new_story_or_approval)["ar3"]
+    Conduct_a_discussion,_including`the_stakeholder_and`the_commenter_to_arrive_at_a_resolution`(new_story_or_approval)["ar4"]
+    Does_it_differ_from`the_stakeholder’s_request?{"dr5"}
+    Conduct_an_internal_discussion`to_arrive_at_a_resolution_(additional`work_for_story_or_approval)["ar5"]
+    Conduct_a_discussion,_including`the_stakeholder_and_the`commenter_to_arrive_at_a_resolution`_(additional_work_for_story_or_approval)["ar6"]
+    a0--" "-->d0
+    d0--"Comment"-->d00
+    d0--"Rejected"-->dr1
+    d00--"No"-->a1
+    d00--"Yes"-->d2
+    d2--"Yes"-->d3
+    d3--"Yes"-->a2
+    d3--"No"-->a3
+    a3--" "-->d4
+    d4--"No"-->a4
+    d4--"Yes"-->a5
+    d2--"No"-->d5
+    d5--"No"-->a6
+    d5--"Yes"-->a7
+    dr1--"No"-->ar1
+    dr1--"Yes"-->dr2
+    dr2--"Yes"-->dr3
+    dr3--"Yes"-->ar2
+    dr3--"No"-->dr4
+    dr4--"No"-->ar3
+    dr4--"Yes"-->ar4
+    dr2--"No"-->dr5
+    dr5--"No"-->ar5
+    dr5--"Yes"-->ar6
+    Start--" "-->What_kind_of_feedback_was_received?
+    Communicate_with_commenter:_`'I’m_not_sure_what_you_meant.`Could_you_elaborate?'--" "-->Is_it_reasonable?
+    Do_it--" "-->Create_a_new_story_to`address_the_new_/_discovered`tech_debt.
+    Create_a_new_story_to`address_the_new_/_discovered`tech_debt.--" "-->Does_it_differ_from`the_stakeholder’s_request?
+    Communicate_with_commenter:`_Thank_you_for_your_input.`We_will_address_this_in_a_future_sprint.--" "-->Communicate_with_commenter:`_'Thank_you_for_your_input.`__This_deviates_from_the_work_that_was_requested.`__After_we_discuss_this_with_the_requester`_we_will_determine_if_further_work_is_required'
+    Communicate_with_commenter:`_'Thank_you_for_your_input.`__This_deviates_from_the_work_that_was_requested.`__After_we_discuss_this_with_the_requester`_we_will_determine_if_further_work_is_required'--" "-->Does_it_differ_from`the_stakeholder’s_request?
+    Communicate_with_commenter:`_Thank_you_for_your_input.`__We_will_consider_this_for_future_work.--" "-->Communicate_with_commenter:`_Thank_you_for_your_input.`__This_deviates_from_the_work_that_was_requested.`__We_will_pass_your_feedback_along,_to_the_requester
+    Communicate_with_commenter:`_Thank_you_for_your_input.`__This_deviates_from_the_work_that_was_requested.`__We_will_pass_your_feedback_along,_to_the_requester--" "-->Is_it_clear_and_informative?`_(More_than_just_a_link_or_Fix_this)
+    Communicate_with_commenter:`“I’m_not_sure_what_you_meant.`_Could_you_elaborate?”--" "-->Is_it_reasonable?
+    Do_it--" "-->Does_it_differ_from`the_stakeholder’s_request?
+    Conduct_an_internal_discussion`to_arrive_at_a_resolution`(new_story_or_approval)--" "-->Conduct_a_discussion,_including`the_stakeholder_and`the_commenter_to_arrive_at_a_resolution`(new_story_or_approval)
+    Conduct_a_discussion,_including`the_stakeholder_and`the_commenter_to_arrive_at_a_resolution`(new_story_or_approval)--" "-->Does_it_differ_from`the_stakeholder’s_request?
+    Conduct_an_internal_discussion`to_arrive_at_a_resolution_(additional`work_for_story_or_approval)--" "-->Conduct_a_discussion,_including`the_stakeholder_and_the`commenter_to_arrive_at_a_resolution`_(additional_work_for_story_or_approval)
+
+        </div>
+    </body>
+</html>
