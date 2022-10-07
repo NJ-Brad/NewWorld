@@ -10,6 +10,7 @@ using Spectre.Console.Cli;
 using Spectre.Console;
 using System.ComponentModel;    // some of the cli attributes are in this namespace
 using System.Diagnostics.CodeAnalysis;  // notnull comes from here
+using NewWorld.Commands;
 
 namespace NewWorld
 {
@@ -93,9 +94,56 @@ namespace NewWorld
             //     (GenerateOptions opts) => ExecuteGenerate(opts),
             //     errs => 1);
 
+            /*
+                // Single command using Spectre
+                var app = new CommandApp<FileSizeCommand>();
+                return app.Run(args);
+            */
 
-            var app = new CommandApp<FileSizeCommand>();
-            return app.Run(args);
+            // Multiple commands using Spectre
+            var app = new CommandApp();
+            app.Configure(config =>
+            {
+                config.SetApplicationName("NewWorld");
+                config.ValidateExamples();
+                //config.AddExample(new[] { "generate", "--no-build" });
+
+                // Generate
+
+                config.AddCommand<GenerateCommand>("generate");
+
+                // Run
+                //    config.AddCommand<RunCommand>("run");
+
+                //    // Add
+                //    config.AddBranch<AddSettings>("add", add =>
+                //    {
+                //        add.SetDescription("Add a package or reference to a .NET project");
+                //        add.AddCommand<AddPackageCommand>("package");
+                //        add.AddCommand<AddReferenceCommand>("reference");
+                //    });
+
+                //    // Serve
+                //    config.AddCommand<ServeCommand>("serve")
+                //    .WithExample(new[] { "serve", "-o", "firefox" })
+                //    .WithExample(new[] { "serve", "--port", "80", "-o", "firefox" });
+            });
+
+            return app.Run(FixArgs(args));
+        }
+
+        private static string[] FixArgs(string[] asEntered)
+        {
+            List<string> newArgs = new List<string>(asEntered);
+
+            if ((newArgs[0].ToUpperInvariant() == "--HELP") ||
+                (newArgs[0].ToUpperInvariant() == "--H"))
+            {
+                newArgs.RemoveAt(0);
+                newArgs.Add("--help");
+            }
+
+            return newArgs.ToArray();
         }
 
 internal sealed class FileSizeCommand : Command<FileSizeCommand.Settings>

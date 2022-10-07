@@ -2,7 +2,7 @@
   "profiles": {
     "NewWorld": {
       "commandName": "Project",
-      "commandLineArgs": "generate --inputfile \"C:\\Users\\Brad\\source\\repos\\NewWorld\\Sample\\worksample.work\""
+      "commandLineArgs": "generate C:\\source\\GitHub\\NewWorld\\Sample/worksample.work -s"
     }
   }
 }

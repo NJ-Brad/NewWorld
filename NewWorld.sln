@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DslParser", "DslParser\DslP
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowDiagram", "FlowDiagram\FlowDiagram.csproj", "{AACB0542-1600-448A-BE24-3C57D286BA86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GanttDiagram", "GanttDiagram\GanttDiagram.csproj", "{D3791205-A701-4F8A-B5D1-A4955409A84F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GanttDiagram", "GanttDiagram\GanttDiagram.csproj", "{D3791205-A701-4F8A-B5D1-A4955409A84F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
