@@ -6,6 +6,10 @@ using CommandLine;
 using GanttDiagram;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
+using Spectre.Console.Cli;
+using Spectre.Console;
+using System.ComponentModel;    // some of the cli attributes are in this namespace
+using System.Diagnostics.CodeAnalysis;  // notnull comes from here
 
 namespace NewWorld
 {
@@ -75,44 +79,62 @@ namespace NewWorld
     {
         static int Main(string[] args)
         {
-            string uDir = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
-            //string sampleName = "~/github/newworld/sample";
-            string sampleName = "../sample/worksample.work";
-            //if(OperatingSystem.IsWindows())
-            string expandedDir = sampleName.Substring(0,1) == "~" ? sampleName.Replace("~", uDir) : sampleName;
-            string pName = Path.GetFullPath(expandedDir);
-        //     BlockParser parser = new ();
-        //    Block block = parser.ParseText(new StreamReader(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TestData.GetWhamFlow()))));
+            //     // this could be removed if desired
+            //     // https://stackoverflow.com/questions/68633872/how-to-get-or-put-string-to-clipboard-in-c-sharp-netcore-put-string-to-clipboar
+            //     TextCopy.ClipboardService.SetText(mermaidText);
 
-        //     FlowchartWorkspace ws = BlockToFlowchartConverter.Convert(block);
-
-        //     string mermaidText = FlowchartPublisher.Publish(ws, "MERMAID");
-
-        //     block = parser.ParseText(new StreamReader(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TestData.GetNoDecisionWhamFlow()))));
-        //     ws = BlockToFlowchartConverter.Convert(block);
-        //     mermaidText = fp.Publish(ws, "MERMAID");
-
-        //     // this could be removed if desired
-        //     // https://stackoverflow.com/questions/68633872/how-to-get-or-put-string-to-clipboard-in-c-sharp-netcore-put-string-to-clipboar
-        //     TextCopy.ClipboardService.SetText(mermaidText);
-
-        //     MermaidPageGenerator.Generate(mermaidText, "Sample", @"C:\Users\Brad\source\repos\NewWorld\sampleGetNoDecisionWhamFlow.html");
+            //// add any new verbs to the line below
+            //return CommandLine.Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions, SampleOptions, GenerateOptions>(args)
+            //   .MapResult(
+            //     (AddOptions opts) => RunAddAndReturnExitCode(opts),
+            //     (CommitOptions opts) => RunCommitAndReturnExitCode(opts),
+            //     (CloneOptions opts) => RunCloneAndReturnExitCode(opts),
+            //     (SampleOptions opts) => ExecuteSample(opts),
+            //     (GenerateOptions opts) => ExecuteGenerate(opts),
+            //     errs => 1);
 
 
-        //     block = parser.ParseText(new StreamReader(new MemoryStream(System.Text.Encoding.UTF8.GetBytes(TestData.GetWorkItems()))));
-        //     WorkItemWorkspace wiws = BlockToWorkItemsConverter.Convert(block);
-        //     mermaidText = WorkItemPublisher.Publish(wiws);
-        //     MermaidPageGenerator.Generate(mermaidText, "Sample", @"C:\Users\Brad\source\repos\NewWorld\sampleGantt.html");
+            var app = new CommandApp<FileSizeCommand>();
+            return app.Run(args);
+        }
 
-            // add any new verbs to the line below
-            return CommandLine.Parser.Default.ParseArguments<AddOptions, CommitOptions, CloneOptions, SampleOptions, GenerateOptions>(args)
-               .MapResult(
-                 (AddOptions opts) => RunAddAndReturnExitCode(opts),
-                 (CommitOptions opts) => RunCommitAndReturnExitCode(opts),
-                 (CloneOptions opts) => RunCloneAndReturnExitCode(opts),
-                 (SampleOptions opts) => ExecuteSample(opts),
-                 (GenerateOptions opts) => ExecuteGenerate(opts),
-                 errs => 1);
+internal sealed class FileSizeCommand : Command<FileSizeCommand.Settings>
+        {
+            public sealed class Settings : CommandSettings
+            {
+                [Description("Path to search. Defaults to current directory.")]
+                [CommandArgument(0, "[searchPath]")]
+                public string? SearchPath { get; init; }
+
+                [CommandOption("-p|--pattern")]
+                public string? SearchPattern { get; init; }
+
+                [CommandOption("--hidden")]
+                [DefaultValue(true)]
+                public bool IncludeHidden { get; init; }
+            }
+
+            public override int Execute([NotNull] CommandContext context, [NotNull] Settings settings)
+            {
+                var searchOptions = new EnumerationOptions
+                {
+                    AttributesToSkip = settings.IncludeHidden
+                        ? FileAttributes.Hidden | FileAttributes.System
+                        : FileAttributes.System
+                };
+
+                var searchPattern = settings.SearchPattern ?? "*.*";
+                var searchPath = settings.SearchPath ?? Directory.GetCurrentDirectory();
+                var files = new DirectoryInfo(searchPath)
+                    .GetFiles(searchPattern, searchOptions);
+
+                var totalFileSize = files
+                    .Sum(fileInfo => fileInfo.Length);
+
+                AnsiConsole.MarkupLine($"Total file size for [green]{searchPattern}[/] files in [green]{searchPath}[/]: [blue]{totalFileSize:N0}[/] bytes");
+
+                return 0;
+            }
         }
 
         static int RunAddAndReturnExitCode(AddOptions opts)
