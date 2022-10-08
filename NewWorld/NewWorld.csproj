@@ -18,6 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\C4Diagram\C4Diagram.csproj" />
     <ProjectReference Include="..\DslParser\DslParser.csproj" />
     <ProjectReference Include="..\FlowDiagram\FlowDiagram.csproj" />
     <ProjectReference Include="..\GanttDiagram\GanttDiagram.csproj" />

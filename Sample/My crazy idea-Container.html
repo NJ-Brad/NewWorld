@@ -1,0 +1,37 @@
+<html>
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+        <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+
+        <h1>My crazy idea Container Diagram</h1>
+        </hl>
+        <div class="mermaid">
+flowchart TB
+    customer["<strong><u>Customer</u></strong><br/>A customer of the bank,<br/>with personal bank accounts)<br/>&#171;External Person&#187;"]
+    subgraph e1["<strong><u>Big Co</u></strong><br/>&#171;ENTERPRISE&#187;"]
+        subgraph c1["<strong><u>Internet Banking</u></strong><br/>&#171;System Boundary&#187;"]
+            web_app["<strong><u>Web Application</u></strong><br/>Delivers the static content<br/>and the Internet banking SPA)<br/>&#171;Container&#187;"]
+            backend_api["<strong><u>API Application</u></strong><br/>Provides Internet banking<br/>functionality via API)<br/>&#171;Container&#187;"]
+            spa["<strong><u>Single-Page App</u></strong><br/>Provides all the Internet banking<br/>functionality to cutomers<br/>via their web browser)<br/>&#171;Container&#187;"]
+            mobile_app["<strong><u>Mobile App</u></strong><br/>Provides a limited subset<br/>of the Internet banking<br/>functionality to customers<br/>via their mobile device)<br/>&#171;Container&#187;"]
+            database["<strong><u>Database</u></strong><br/>Stores user registration<br/>information, hashed auth credentials,<br/>access logs, etc.)<br/>&#171;Database&#187;"]
+        end
+        banking_system["<strong><u>Mainframe Banking System</u></strong><br/>Stores all of the core<br/>banking information about<br/>customers, accounts, transactions, etc.)<br/>&#171;System&#187;"]
+    end
+    email_system["<strong><u>E-Mail System</u></strong><br/>The internal<br/>Microsoft Exchange system)<br/>&#171;External System&#187;"]
+    customer--"Uses<br>[HTTPS]"-->web_app
+    customer--"Uses<br>[HTTPS]"-->spa
+    customer--"Uses"-->mobile_app
+    web_app--"Delivers"-->spa
+    spa--"Uses<br>[async, JSON/HTTPS]"-->backend_api
+    mobile_app--"Uses<br>[async, JSON/HTTPS]"-->backend_api
+    database--"Reads from and writes to<br>[sync, JDBC]"-->backend_api
+    email_system--"Sends e-mails to"-->customer
+    backend_api--"Sends e-mails using<br>[sync, SMTP]"-->email_system
+    backend_api--"Uses<br>[sync/async, XML/HTTPS]"-->banking_system
+
+        </div>
+    </body>
+</html>

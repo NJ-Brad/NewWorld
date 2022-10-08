@@ -1,4 +1,5 @@
-﻿using DslParser;
+﻿using C4Diagram;
+using DslParser;
 using FlowDiagram;
 using GanttDiagram;
 using Spectre.Console;
@@ -93,7 +94,7 @@ namespace NewWorld.Commands
                             MermaidPageGenerator.Generate(mermaidText, title, outputFileName);
                             if (settings.ShowOutput)
                             {
-                                OpenBrowser($"file:///{outputFileName}");
+                                OpenBrowser($"file:///{outputFileName.Replace(" ", "%20")}");
                             }
                             break;
                         case "FLOW":
@@ -103,10 +104,60 @@ namespace NewWorld.Commands
                             MermaidPageGenerator.Generate(mermaidText, title, outputFileName);
                             if (settings.ShowOutput)
                             {
-                                OpenBrowser($"file:///{outputFileName}");
+                                OpenBrowser($"file:///{outputFileName.Replace(" ", "%20")}");
                             }
                             break;
-                    }
+                    case "C4":
+                        block = parser.ParseText(sr);
+                        C4Workspace c4ws = BlockToC4Converter.Convert(block);
+                        C4Publisher pub = new();
+                        mermaidText = pub.Publish(c4ws, "Context", "MERMAID");
+                        string contextFName = Path.ChangeExtension(Path.Combine(Path.GetDirectoryName(outputFileName), Path.GetFileNameWithoutExtension(outputFileName)+"-Context"), "html");
+                        MermaidPageGenerator.Generate(mermaidText, title+ " Context Diagram", contextFName);
+                        if (settings.ShowOutput)
+                        {
+                            OpenBrowser($"file:///{contextFName.Replace(" ", "%20")}");
+                        }
+
+                        mermaidText = pub.Publish(c4ws, "Container", "MERMAID");
+                        string containerFName = Path.ChangeExtension(Path.Combine(Path.GetDirectoryName(outputFileName), Path.GetFileNameWithoutExtension(outputFileName) + "-Container"), "html");
+                        MermaidPageGenerator.Generate(mermaidText, title + " Container Diagram", containerFName);
+                        if (settings.ShowOutput)
+                        {
+                            OpenBrowser($"file:///{containerFName.Replace(" ", "%20")}");
+                        }
+
+                        mermaidText = pub.Publish(c4ws, "Component", "MERMAID");
+                        string componentFName = Path.ChangeExtension(Path.Combine(Path.GetDirectoryName(outputFileName), Path.GetFileNameWithoutExtension(outputFileName) + "-Component"), "html");
+                        MermaidPageGenerator.Generate(mermaidText, title + " Component Diagram", componentFName);
+                        if (settings.ShowOutput)
+                        {
+                            OpenBrowser($"file:///{componentFName.Replace(" ", "%20")}");
+                        }
+                        break;
+
+                        //imgName = path.join(destinationFolder, filename) + "-context.png";
+                        //newText = publisher.publish(ws, "Context", "PLANT");
+                        //fs.writeFileSync(outName, newText);
+                        //rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
+                
+                        //console.log(`${ sourceFileName}
+                        //--> ${ imgName}`);
+
+                        //outName = this.getTempFileName();
+                        //imgName = path.join(destinationFolder, filename) + "-container.png";
+                        //newText = publisher.publish(ws, "Container", "PLANT");
+                        //fs.writeFileSync(outName, newText);
+                        //rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
+                
+                        //console.log(`${ sourceFileName}
+                        //--> ${ imgName}`);
+
+                        //outName = this.getTempFileName();
+                        //imgName = path.join(destinationFolder, filename) + "-component.png";
+                        //newText = publisher.publish(ws, "Component", "PLANT");
+
+                }
             }
             return 0;
         }

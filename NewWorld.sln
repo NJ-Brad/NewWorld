@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FlowDiagram", "FlowDiagram\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GanttDiagram", "GanttDiagram\GanttDiagram.csproj", "{D3791205-A701-4F8A-B5D1-A4955409A84F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "C4Diagram", "C4Diagram\C4Diagram.csproj", "{3CD3A14A-6EFB-4548-ADF4-86EE0E2E1588}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{D3791205-A701-4F8A-B5D1-A4955409A84F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D3791205-A701-4F8A-B5D1-A4955409A84F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D3791205-A701-4F8A-B5D1-A4955409A84F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CD3A14A-6EFB-4548-ADF4-86EE0E2E1588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CD3A14A-6EFB-4548-ADF4-86EE0E2E1588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CD3A14A-6EFB-4548-ADF4-86EE0E2E1588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CD3A14A-6EFB-4548-ADF4-86EE0E2E1588}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

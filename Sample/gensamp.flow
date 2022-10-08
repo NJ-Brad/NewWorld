@@ -1,0 +1,101 @@
+
+			flow
+			[
+				' https://mermaid-js.github.io/mermaid/#/flowchart
+			
+				Start
+			
+				"Loan Type"
+			
+				"Home Description"
+			
+				"Property Use"
+				[
+					"if Loan Type = Purchase" ttp
+					"if Loan type = Refinance" lprc
+					"Other Loan type" "Home Value"
+				]
+			
+				"Timeframe to Purchase" ttp
+			
+				"First Time Home Buyer"
+				[
+					_ "Military"
+				]
+			
+				"Loan Purpose Refi slash Cashout" lprc
+			
+				"Home Value"
+				[
+					"if Loan Purpose = Refi slash Cashout" "Mortgage Balance"
+					"if Loan Purpose is not Refi slash Cashout`and (Loan Type = Cashout`OR Loan Purpose = Cashout Refi`OR Loan Purpose = Take Cash Out)" "Additional Funds"
+					"if Loan Purpose is not Refi slash Cashout`and not (Loan Type = Cashout`OR Loan Purpose = Cashout Refi`OR Loan Purpose = Take Cash Out)" "Military"
+				]
+			
+
+				"Mortgage Balance" 
+				[
+					"Loan Type = Cashout`OR Loan Purpose = Cashout Refi`OR Loan Purpose = Take Cash Out" "Additional Funds"
+					"not (Loan Type = Cashout`OR Loan Purpose = Cashout Refi`OR Loan Purpose = Take Cash Out)" "Military"
+				]
+			
+				"Additional Funds"
+			
+				"Military"
+				[
+					"If Loan Type = Purchase" "Working w/Agent"
+			
+					"If Loan Type <> Purchase" "Credit Profile"
+				]
+			
+				"Working w/Agent"
+			
+				"Purchase Price"
+			
+				"Down Payment"
+			
+				"Credit Profile"
+				[
+					"Loan Type = Refi slash C.O." "Second Mortgage"
+			
+					"Loan Type <> Refi slash C.O.`and QPV <> NoEmp" "Employment Status"
+					"Loan Type <> Refi slash C.O.`and QPV = NoEmp`and Loan Type = Purchase`And F.T.H.B. = No" "Late Payments"
+					"Loan Type <> Refi slash C.O.`and QPV = NoEmp`and NOT (Loan Type = Purchase`And F.T.H.B. = No)" "Bankruptcy"
+				]
+			
+				"Second Mortgage"
+				[
+					"QPV <> NoEmp" "Employment Status"
+					"Loan Type = Refi slash C.O.`and QPV = NoEmp`and Loan Type = Purchase`And F.T.H.B. = No" "Late Payments"
+					"Loan Type = Refi slash C.O.`and QPV = NoEmp`and NOT (Loan Type = Purchase`And F.T.H.B. = No)" "Bankruptcy"
+				]
+			
+				"Late Payments"
+			
+				"Foreclosure"
+				[
+					_ "Bankruptcy"
+				]
+			
+				"Employment Status"
+			
+				"Bankruptcy"
+			
+				"Name"
+			
+				"Home Phone"
+			
+				"Email"
+			
+				"Address and Zip" anz
+			
+				action "Submit Transaction" a24
+				[
+					"Error" anz
+					"Successful" redirect
+				]
+			
+				"Redirect to slash thank-you" redirect
+			
+				End
+			]

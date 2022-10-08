@@ -1,0 +1,27 @@
+<html>
+    <body>
+        <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+        <script>
+            mermaid.initialize({ startOnLoad: true });
+        </script>
+
+        <h1>My crazy idea Context Diagram</h1>
+        </hl>
+        <div class="mermaid">
+flowchart TB
+    customer["<strong><u>Customer</u></strong><br/>A customer of the bank,<br/>with personal bank accounts)<br/>&#171;External Person&#187;"]
+    subgraph e1["<strong><u>Big Co</u></strong><br/>&#171;ENTERPRISE&#187;"]
+        c1["<strong><u>Internet Banking</u></strong><br/>&#171;System&#187;"]
+        banking_system["<strong><u>Mainframe Banking System</u></strong><br/>Stores all of the core<br/>banking information about<br/>customers, accounts, transactions, etc.)<br/>&#171;System&#187;"]
+    end
+    email_system["<strong><u>E-Mail System</u></strong><br/>The internal<br/>Microsoft Exchange system)<br/>&#171;External System&#187;"]
+    customer--"Uses"-->c1
+    customer--"Uses"-->c1
+    customer--"Uses"-->c1
+    email_system--"Sends e-mails to"-->customer
+    c1--"Sends e-mails using"-->email_system
+    c1--"Uses"-->banking_system
+
+        </div>
+    </body>
+</html>

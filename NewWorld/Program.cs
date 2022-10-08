@@ -20,6 +20,9 @@ namespace NewWorld
 
                 config.AddCommand<GenerateCommand>("generate");
 
+                // Sample
+                config.AddCommand<SampleCommand>("sample");
+
                 // Run
                 //    config.AddCommand<RunCommand>("run");
 
