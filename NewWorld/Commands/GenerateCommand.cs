@@ -2,6 +2,7 @@
 using DslParser;
 using FlowDiagram;
 using GanttDiagram;
+using MarkdownConverter;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using System;
@@ -135,28 +136,14 @@ namespace NewWorld.Commands
                             OpenBrowser($"file:///{componentFName.Replace(" ", "%20")}");
                         }
                         break;
-
-                        //imgName = path.join(destinationFolder, filename) + "-context.png";
-                        //newText = publisher.publish(ws, "Context", "PLANT");
-                        //fs.writeFileSync(outName, newText);
-                        //rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
-                
-                        //console.log(`${ sourceFileName}
-                        //--> ${ imgName}`);
-
-                        //outName = this.getTempFileName();
-                        //imgName = path.join(destinationFolder, filename) + "-container.png";
-                        //newText = publisher.publish(ws, "Container", "PLANT");
-                        //fs.writeFileSync(outName, newText);
-                        //rnr.convert(`\"${outName}\"`, `\"${imgName}\"`);
-                
-                        //console.log(`${ sourceFileName}
-                        //--> ${ imgName}`);
-
-                        //outName = this.getTempFileName();
-                        //imgName = path.join(destinationFolder, filename) + "-component.png";
-                        //newText = publisher.publish(ws, "Component", "PLANT");
-
+                    case "MD":
+                        string mdResult = MdPublisher.Publish(sr.ReadToEnd());
+                        File.WriteAllText(outputFileName, mdResult);
+                        if (settings.ShowOutput)
+                        {
+                            OpenBrowser($"file:///{outputFileName.Replace(" ", "%20")}");
+                        }
+                        break;
                 }
             }
             return 0;

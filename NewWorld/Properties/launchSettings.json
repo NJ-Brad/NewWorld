@@ -2,7 +2,7 @@
   "profiles": {
     "NewWorld": {
       "commandName": "Project",
-      "commandLineArgs": "generate \"C:\\source\\GitHub\\NewWorld\\Sample\\My crazy idea.C4\" -s"
+      "commandLineArgs": "generate \"C:\\source\\GitHub\\NewWorld\\Sample\\firstarticle.md\" -s"
     }
   }
 }

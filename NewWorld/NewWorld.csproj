@@ -22,6 +22,7 @@
     <ProjectReference Include="..\DslParser\DslParser.csproj" />
     <ProjectReference Include="..\FlowDiagram\FlowDiagram.csproj" />
     <ProjectReference Include="..\GanttDiagram\GanttDiagram.csproj" />
+    <ProjectReference Include="..\MarkdownConverter\MarkdownConverter.csproj" />
   </ItemGroup>
 
 </Project>
