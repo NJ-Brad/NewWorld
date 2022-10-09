@@ -48,7 +48,7 @@ namespace NewWorld
             List<string> newArgs = new List<string>(asEntered);
 
             if ((newArgs[0].ToUpperInvariant() == "--HELP") ||
-                (newArgs[0].ToUpperInvariant() == "--H"))
+                (newArgs[0].ToUpperInvariant() == "-H"))
             {
                 newArgs.RemoveAt(0);
                 newArgs.Add("--help");
